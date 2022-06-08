@@ -28,10 +28,10 @@ public class UserController {
 	}
 	// 탈퇴
 	@RequestMapping(value = "/deleteUser.com", method = RequestMethod.POST)
-	public String deleteUser(HttpServletRequest req) {
+	public String deleteUser(User u,HttpServletRequest req) {
 		
 		
-		
+		uDAO.deleteUser(u, req);
 		return "index";
 	}
 	

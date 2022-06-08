@@ -39,6 +39,7 @@ public class UserDAO {
 		u.setUserName(loginUser.getUserName());
 		// 업데이트
 		if(ss.getMapper(UserMapper.class).updateUser(u) == 1) {
+			// 바꿔야함
 			System.out.println("변경 성공");
 		}
 		
@@ -46,9 +47,15 @@ public class UserDAO {
 		System.out.println(loginUser.getUserName());
 		
 	}
-	
-	public void  deleteUser() {
-		
+	// 탈퇴
+	public void  deleteUser(User u, HttpServletRequest req) {
+		// 그냥 세션으로 삭제해도됨 
+		u.setUserName(req.getParameter("username"));
+		if(ss.getMapper(UserMapper.class).deleteUser(u)== 1) {
+			// 바꿔야함 
+			req.getSession().setAttribute("loginUser", null);
+			System.out.println("탈퇴 성공");
+		}
 	}
 	
 }

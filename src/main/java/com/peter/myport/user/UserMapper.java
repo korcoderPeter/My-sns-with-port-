@@ -8,4 +8,6 @@ public interface UserMapper {
 	public abstract User selectLogin(User u);
 	
 	public abstract int updateUser(User u);
+	
+	public abstract int deleteUser(User u);
 }
