@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peter.myport.sns.SnsMapper">
+
+<insert id="insertSns" parameterType="com.peter.myport.sns.Sns">
+insert into kim_sns values(kim_sns_seq.nextval, #{writer }, #{title},  #{content} , sysdate)
+</insert>
+
+<select id="selectSns" resultType="com.peter.myport.sns.Sns">
+select * from kim_sns order by when desc
+</select>
+
+
+</mapper>

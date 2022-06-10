@@ -18,5 +18,12 @@
 ${loginUser.userName}님 환영합니다  <a href="/myport/logout.com">로그아웃</a> <a href="/myport/info.com">회원정보</a>
 </c:otherwise>
 </c:choose>
+
+<br>
+<br>
+
+<a href="/myport/snsWritePage">글쓰기</a> <br>
+<c:forEach var="ls" items="${listSns }"> ${ls.sns_no } / ${ls.title } / ${ls.content } <br> </c:forEach>
+
 </body>
 </html>

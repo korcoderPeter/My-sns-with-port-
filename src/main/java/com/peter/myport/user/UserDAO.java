@@ -19,19 +19,23 @@ public class UserDAO {
 		String phone = req.getParameter("phoneNumber");
 		// 세션 받기
 		User loginUser = (User) req.getSession().getAttribute("loginUser");
-		// sql null 오류 방지
-		if(password == null ) {
+		
+		
+		// sql null 오류 방지================================
+		if(password == null || password.equals("")) {
 			password = loginUser.getPassword(); 
 		}
-		if(address == null) {
+		if(address == null || password.equals("")) {
 			address = loginUser.getAddress(); 
 		}
-		if(phone == null) {
+		if(phone == null || password.equals("")) {
 			phone = loginUser.getPhoneNumber(); 
 		}
+		
 		System.out.println(phone);
 		System.out.println(password);
 		System.out.println(address);
+		// ======================================================
 		
 		u.setPassword(password);
 		u.setAddress(address);
@@ -39,6 +43,11 @@ public class UserDAO {
 		u.setUserName(loginUser.getUserName());
 		// 업데이트
 		if(ss.getMapper(UserMapper.class).updateUser(u) == 1) {
+			// 다시 로그인해야함
+			u.setName(loginUser.getName());
+			u.setUserBirth(loginUser.getUserBirth());
+			u.setEmail(loginUser.getEmail());
+			req.getSession().setAttribute("loginUser", u);
 			// 바꿔야함
 			System.out.println("변경 성공");
 		}

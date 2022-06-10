@@ -45,6 +45,8 @@
 			<beans:list>
 			
 				<beans:value>classpath:userMapper.xml</beans:value>
+
+				<beans:value>classpath:snsMapper.xml</beans:value>
 			 
 			</beans:list>
 		</beans:property>
