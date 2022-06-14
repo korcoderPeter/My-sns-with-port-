@@ -1,5 +1,6 @@
 package com.peter.myport.sns;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -14,9 +15,25 @@ import com.peter.myport.user.User;
 
 @Service
 public class SnsDAO {
-
+	private int allMsgCount;
 	@Autowired
 	private SqlSession ss;
+	
+	
+	public void countAllMsg() {
+		allMsgCount = ss.getMapper(SnsMapper.class).getAllMsgCount();
+	}
+	public void selectSnsById(Sns s, HttpServletRequest req) {
+		
+		
+		
+		s.setSns_no(new BigDecimal(req.getParameter("no")));
+		
+		Sns sns = ss.getMapper(SnsMapper.class).selectSnsById(s);
+		
+		req.setAttribute("selectSns", sns);
+	}
+	
 	
 	
 	public void insertSns(Sns s, HttpServletRequest req) {
@@ -46,8 +63,32 @@ public class SnsDAO {
 		
 	}
 	
-	public void selectSns(HttpServletRequest req) {
-		List<Sns> listSns = ss.getMapper(SnsMapper.class).selectSns();
+	public void selectSns(int page, HttpServletRequest req) {
+		// 페이지
+		req.setAttribute("curPage", page);
+		
+		// 검색어
+		String search = (String) req.getSession().getAttribute("search");
+		int msgCount = 0;
+		// 
+		
+		if(search == null) { // 전체 조회
+			
+			msgCount = allMsgCount;
+			search = "";
+		} else { // 검색 조회
+			SnsSelector sSel2 = new SnsSelector(search, 0,0);
+			
+		}
+		int allPageCount = (int) Math.ceil( (double)msgCount / 5);
+		req.setAttribute("allPageCount", allPageCount);
+		
+		int start = (page - 1) * 5 + 1;
+		int end = (page == allPageCount) ? msgCount : start + 5 -1;
+		
+		SnsSelector sSel1 = new SnsSelector(search, start, end);
+		List<Sns> listSns = ss.getMapper(SnsMapper.class).selectSns(sSel1);		
+		
 		req.setAttribute("listSns", listSns);
 	}
 	public void snsToken(HttpServletRequest req) {

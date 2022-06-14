@@ -6,9 +6,30 @@
 insert into kim_sns values(kim_sns_seq.nextval, #{writer }, #{title},  #{content} , sysdate)
 </insert>
 
-<select id="selectSns" resultType="com.peter.myport.sns.Sns">
-select * from kim_sns order by when desc
+<select id="selectSns" parameterType="com.peter.myport.sns.SnsSelector" resultType="com.peter.myport.sns.Sns">
+
+select *
+from (
+select rownum as rn, sns_no, writer, title, content, when
+from (
+select *
+from kim_sns
+where (title like '%'||#{search }||'%'
+or content like '%'||#{search}||'%')
+order by when desc
+)
+)
+where rn &gt;= #{start} and rn &lt;= #{end}
 </select>
 
+<select id="getAllMsgCount" resultType="java.lang.Integer">
+select count(*)
+from kim_sns
+</select>
+
+<select id="selectSnsById" resultType="com.peter.myport.sns.Sns" parameterType="com.peter.myport.sns.Sns">
+select * from kim_sns where sns_no = #{sns_no }
+
+</select>
 
 </mapper>

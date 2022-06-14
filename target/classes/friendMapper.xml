@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peter.myport.friend.FriendMapper">
+
+
+	<insert id="insertFriend"
+		parameterType="com.peter.myport.friend.Friend">
+		insert into kim_friend values (#{summit_user},
+		#{status}, #{accept_user})
+
+	</insert>
+
+	<select id="selectSummitedList"
+		parameterType="com.peter.myport.friend.Friend"
+		resultType="com.peter.myport.friend.Friend">
+		select * from kim_friend where status = #{status } and
+		accept_user =
+		#{accept_user}
+	</select>
+
+	<update id="acceptFriend"
+		parameterType="com.peter.myport.friend.Friend">
+		update kim_friend set status = #{status } where
+		accept_user = #{accept_user } and summit_user = #{summit_user }
+
+	</update>
+
+	<select id="selectFriend"
+		resultType="com.peter.myport.friend.Friend" parameterType="com.peter.myport.friend.Friend">
+		select *
+		from (
+		select * from KIM_FRIEND where summit_user = #{summit_user } or accept_user = #{accept_user }
+		)
+		where status = #{status}
+	</select>
+
+</mapper>

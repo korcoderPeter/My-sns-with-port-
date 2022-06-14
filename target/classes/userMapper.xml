@@ -24,4 +24,14 @@
 <delete id="deleteUser" parameterType="com.peter.myport.user.User">
 delete from kim_user where username = #{username} 
 </delete>
+
+<select id="selectAllUser" resultType="com.peter.myport.user.User">
+	select * from kim_user 
+</select>
+
+<select id="selectUserDetail" resultType="com.peter.myport.user.User" parameterType="com.peter.myport.user.User">
+	select * from kim_user 
+	where username = #{username }
+</select>
+
 </mapper>
